@@ -52,7 +52,7 @@ class _ConverterPageState extends State<ConverterPage> {
 
     if (RegExp(r'^[0-9]+([.][0-9]+)?$').hasMatch(res)) {
       double valueConverted = (double.parse(res) * rates[currency1][currency2]);
-      convertionStr = valueConverted.toStringAsFixed(3);
+      convertionStr = valueConverted.toStringAsFixed(2);
     }
 
     setState(() {
@@ -159,14 +159,19 @@ class _ConverterPageState extends State<ConverterPage> {
                           ),
                         ],
                       ),
-                      Column(
-                        children: [
-                          _InfoText(
-                            text: lowerText,
-                            color: Colors.white,
-                            font: 50,
-                          ),
-                        ],
+                      Flexible(
+                        // Agregado para el problema de desborde
+                        fit: FlexFit
+                            .loose, // Agregado para el problema de desborde
+                        child: Column(
+                          children: [
+                            _InfoText(
+                              text: lowerText,
+                              color: Colors.white,
+                              font: 50,
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -328,6 +333,9 @@ class _InfoText extends StatelessWidget {
           fontSize: font,
           fontFamily: 'Helvetica',
         ),
+        overflow:
+            TextOverflow.ellipsis, // Agregado para el problema de desborde
+        softWrap: false, // Agregado para el problema de desborde
       ),
     );
   }
