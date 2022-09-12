@@ -1,5 +1,6 @@
 import 'package:direct_select/direct_select.dart';
 import 'package:flutter/material.dart';
+import 'package:string_validator/string_validator.dart';
 import '../../utils/constants.dart';
 import '../widgets/selection_item.dart';
 
@@ -18,7 +19,9 @@ class _ConverterPageState extends State<ConverterPage> {
   int currency2 = 0;
   String text = '';
   String upperText = '';
+  String lowerText = '';
   String res = '';
+  String convertionStr = '';
 
   // función para construir el selector de monedas
   List<Widget> _buildItems() {
@@ -31,15 +34,30 @@ class _ConverterPageState extends State<ConverterPage> {
 
   //Function to show pressed btn value
   void btnPressed(String btnVal) {
-    print(btnVal);
-    if (btnVal == '<') {
+    if (btnVal != '<') {
+      res = upperText + btnVal;
+    } else if (upperText.isNotEmpty) {
       res = upperText.substring(0, upperText.length - 1);
-    } else {
-      res = int.parse(upperText + btnVal).toString();
+    }
+
+    if (RegExp(r'^[.][0-9]+?$').hasMatch(res)) {
+      res = '0$res';
+    } else if (RegExp(r'^0+([0-9]{1}?)').hasMatch(res)) {
+      res = res.substring(1);
+    } else if (res.split('.').length > 2) {
+      res = upperText;
+    }
+
+    convertionStr = '';
+
+    if (RegExp(r'^[0-9]+([.][0-9]+)?$').hasMatch(res)) {
+      double valueConverted = (double.parse(res) * rates[currency1][currency2]);
+      convertionStr = valueConverted.toStringAsFixed(3);
     }
 
     setState(() {
       upperText = res;
+      lowerText = convertionStr;
     });
   }
 
@@ -96,22 +114,31 @@ class _ConverterPageState extends State<ConverterPage> {
               ],
             ),
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 12.0, horizontal: 10),
+              padding: const EdgeInsets.symmetric(
+                vertical: 12.0,
+                horizontal: 10,
+              ),
               child: Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Column(
-                        children: const [
-                          _InfoText(text: 'USD', color: Colors.white, font: 18),
+                        children: [
+                          _InfoText(
+                            text: currencies[currency1],
+                            color: Colors.white,
+                            font: 18,
+                          ),
                         ],
                       ),
                       Column(
                         children: [
                           _InfoText(
-                              text: upperText, color: Colors.white, font: 50),
+                            text: upperText,
+                            color: Colors.white,
+                            font: 50,
+                          ),
                         ],
                       ),
                     ],
@@ -124,14 +151,21 @@ class _ConverterPageState extends State<ConverterPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Column(
-                        children: const [
-                          _InfoText(text: 'COP', color: Colors.white, font: 18),
+                        children: [
+                          _InfoText(
+                            text: currencies[currency2],
+                            color: Colors.white,
+                            font: 18,
+                          ),
                         ],
                       ),
                       Column(
-                        children: const [
+                        children: [
                           _InfoText(
-                              text: '0.00', color: Colors.white, font: 50),
+                            text: lowerText,
+                            color: Colors.white,
+                            font: 50,
+                          ),
                         ],
                       ),
                     ],
