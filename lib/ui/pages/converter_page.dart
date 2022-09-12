@@ -17,6 +17,8 @@ class _ConverterPageState extends State<ConverterPage> {
   int currency1 = 1;
   int currency2 = 0;
   String text = '';
+  String upperText = '';
+  String res = '';
 
   // función para construir el selector de monedas
   List<Widget> _buildItems() {
@@ -25,6 +27,20 @@ class _ConverterPageState extends State<ConverterPage> {
               title: val,
             ))
         .toList();
+  }
+
+  //Function to show pressed btn value
+  void btnPressed(String btnVal) {
+    print(btnVal);
+    if (btnVal == '<') {
+      res = upperText.substring(0, upperText.length - 1);
+    } else {
+      res = int.parse(upperText + btnVal).toString();
+    }
+
+    setState(() {
+      upperText = res;
+    });
   }
 
   @override
@@ -93,9 +109,9 @@ class _ConverterPageState extends State<ConverterPage> {
                         ],
                       ),
                       Column(
-                        children: const [
+                        children: [
                           _InfoText(
-                              text: '0.00', color: Colors.white, font: 50),
+                              text: upperText, color: Colors.white, font: 50),
                         ],
                       ),
                     ],
@@ -123,17 +139,20 @@ class _ConverterPageState extends State<ConverterPage> {
                   Table(
                     defaultColumnWidth: FixedColumnWidth(110),
                     // border: TableBorder.all(width: 1, color: Colors.white),
-                    children: const [
+                    children: [
                       TableRow(
                         children: [
                           _CircularButton(
                             text: '7',
+                            callback: btnPressed,
                           ),
                           _CircularButton(
                             text: '8',
+                            callback: btnPressed,
                           ),
                           _CircularButton(
                             text: '9',
+                            callback: btnPressed,
                           )
                         ],
                       ),
@@ -141,12 +160,15 @@ class _ConverterPageState extends State<ConverterPage> {
                         children: [
                           _CircularButton(
                             text: '4',
+                            callback: btnPressed,
                           ),
                           _CircularButton(
                             text: '5',
+                            callback: btnPressed,
                           ),
                           _CircularButton(
                             text: '6',
+                            callback: btnPressed,
                           )
                         ],
                       ),
@@ -154,12 +176,15 @@ class _ConverterPageState extends State<ConverterPage> {
                         children: [
                           _CircularButton(
                             text: '1',
+                            callback: btnPressed,
                           ),
                           _CircularButton(
                             text: '2',
+                            callback: btnPressed,
                           ),
                           _CircularButton(
                             text: '3',
+                            callback: btnPressed,
                           )
                         ],
                       ),
@@ -167,11 +192,15 @@ class _ConverterPageState extends State<ConverterPage> {
                         children: [
                           _CircularButton(
                             text: '0',
+                            callback: btnPressed,
                           ),
                           _CircularButton(
                             text: '.',
+                            callback: btnPressed,
                           ),
-                          _EraseButton()
+                          _EraseButton(
+                            callback: btnPressed,
+                          )
                         ],
                       ),
                     ],
@@ -185,8 +214,10 @@ class _ConverterPageState extends State<ConverterPage> {
 }
 
 class _EraseButton extends StatelessWidget {
+  final Function callback;
   const _EraseButton({
     Key? key,
+    required this.callback,
   }) : super(key: key);
 
   @override
@@ -194,7 +225,7 @@ class _EraseButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15),
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () => callback('<'),
         style: ElevatedButton.styleFrom(
           shape: const CircleBorder(),
           fixedSize: const Size.fromRadius(35),
@@ -212,9 +243,12 @@ class _EraseButton extends StatelessWidget {
 
 class _CircularButton extends StatelessWidget {
   final String text;
+  final Function callback;
+
   const _CircularButton({
     Key? key,
     required this.text,
+    required this.callback,
   }) : super(key: key);
 
   @override
@@ -222,7 +256,7 @@ class _CircularButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15),
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () => callback(text),
         style: ElevatedButton.styleFrom(
           shape: const CircleBorder(),
           fixedSize: const Size.fromRadius(35),
