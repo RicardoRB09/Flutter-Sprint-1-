@@ -120,12 +120,121 @@ class _ConverterPageState extends State<ConverterPage> {
                       ),
                     ],
                   ),
-                  Table(ç),
+                  Table(
+                    defaultColumnWidth: FixedColumnWidth(110),
+                    // border: TableBorder.all(width: 1, color: Colors.white),
+                    children: const [
+                      TableRow(
+                        children: [
+                          _CircularButton(
+                            text: '7',
+                          ),
+                          _CircularButton(
+                            text: '8',
+                          ),
+                          _CircularButton(
+                            text: '9',
+                          )
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          _CircularButton(
+                            text: '4',
+                          ),
+                          _CircularButton(
+                            text: '5',
+                          ),
+                          _CircularButton(
+                            text: '6',
+                          )
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          _CircularButton(
+                            text: '1',
+                          ),
+                          _CircularButton(
+                            text: '2',
+                          ),
+                          _CircularButton(
+                            text: '3',
+                          )
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          _CircularButton(
+                            text: '0',
+                          ),
+                          _CircularButton(
+                            text: '.',
+                          ),
+                          _EraseButton()
+                        ],
+                      ),
+                    ],
+                  ),
                 ],
               ),
             )
           ]),
         ));
+  }
+}
+
+class _EraseButton extends StatelessWidget {
+  const _EraseButton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 15),
+      child: ElevatedButton(
+        onPressed: () {},
+        style: ElevatedButton.styleFrom(
+          shape: const CircleBorder(),
+          fixedSize: const Size.fromRadius(35),
+          primary: Colors.grey[500],
+        ),
+        child: const Icon(
+          Icons.arrow_back_ios_new,
+          size: 35,
+          color: Colors.black,
+        ),
+      ),
+    );
+  }
+}
+
+class _CircularButton extends StatelessWidget {
+  final String text;
+  const _CircularButton({
+    Key? key,
+    required this.text,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 15),
+      child: ElevatedButton(
+        onPressed: () {},
+        style: ElevatedButton.styleFrom(
+          shape: const CircleBorder(),
+          fixedSize: const Size.fromRadius(35),
+          primary: Colors.grey[800],
+        ),
+        child: Text(
+          text,
+          style: const TextStyle(
+              color: Colors.white, fontFamily: 'Helvetica', fontSize: 30),
+        ),
+      ),
+    );
   }
 }
 
