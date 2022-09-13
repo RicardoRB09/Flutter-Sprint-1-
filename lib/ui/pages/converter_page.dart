@@ -1,6 +1,5 @@
 import 'package:direct_select/direct_select.dart';
 import 'package:flutter/material.dart';
-import 'package:string_validator/string_validator.dart';
 import '../../utils/constants.dart';
 import '../widgets/selection_item.dart';
 
@@ -58,6 +57,14 @@ class _ConverterPageState extends State<ConverterPage> {
     setState(() {
       upperText = res;
       lowerText = convertionStr;
+    });
+  }
+
+  //Function to erase displays
+  void eraseDisplays() {
+    setState(() {
+      upperText = '';
+      lowerText = '';
     });
   }
 
@@ -239,6 +246,7 @@ class _ConverterPageState extends State<ConverterPage> {
                           ),
                           _EraseButton(
                             callback: btnPressed,
+                            callbackErase: eraseDisplays,
                           )
                         ],
                       ),
@@ -254,9 +262,11 @@ class _ConverterPageState extends State<ConverterPage> {
 
 class _EraseButton extends StatelessWidget {
   final Function callback;
+  final Function callbackErase;
   const _EraseButton({
     Key? key,
     required this.callback,
+    required this.callbackErase,
   }) : super(key: key);
 
   @override
@@ -265,6 +275,7 @@ class _EraseButton extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 15),
       child: ElevatedButton(
         onPressed: () => callback('<'),
+        onLongPress: () => callbackErase(),
         style: ElevatedButton.styleFrom(
           shape: const CircleBorder(),
           fixedSize: const Size.fromRadius(35),
