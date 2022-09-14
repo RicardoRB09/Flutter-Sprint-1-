@@ -23,13 +23,18 @@ class _ConverterPageState extends State<ConverterPage> {
   String convertionStr = '';
 
   // función para construir el selector de monedas
-  List<Widget> _buildItems() {
+  /*  List<Widget> _buildItems() {
     return currencies
         .map((val) => SelectionItem(
               title: val,
             ))
         .toList();
-  }
+  } */
+
+  //CMC-Lista de los nombres de las currencies (dropdown menu)
+  List<String> currencyList = ['COP', 'USD', 'EU'];
+  String? currencySelected1 = 'USD';
+  String? currencySelected2 = 'COP';
 
   //Function to show pressed btn value
   void btnPressed(String btnVal) {
@@ -83,41 +88,41 @@ class _ConverterPageState extends State<ConverterPage> {
             Row(
               children: [
                 Expanded(
-                  // selector para la primera moneda
-                  child: DirectSelect(
-                      itemExtent: 45.0,
-                      selectedIndex: currency1,
-                      backgroundColor: Theme.of(context).colorScheme.primary,
-                      onSelectedItemChanged: (index) {
-                        // aquí cambiamos el estado del widget
-                        setState(() {
-                          currency1 = index ?? 0;
-                        });
-                      },
-                      items: _buildItems(),
-                      child: SelectionItem(
-                        isForList: false,
-                        title: currencies[currency1],
-                      )),
-                ),
+                    // selector para la primera moneda
+                    child: DropdownButton<String>(
+                        icon: Icon(Icons.arrow_drop_down, color: Colors.white),
+                        value: currencySelected1,
+                        dropdownColor: Colors.blueGrey[900],
+                        items: currencies
+                            .map((item) => DropdownMenuItem<String>(
+                                value: item,
+                                child: Text(
+                                  item,
+                                  style: TextStyle(
+                                      fontSize: 18, color: Colors.white),
+                                  textAlign: TextAlign.end,
+                                )))
+                            .toList(),
+                        onChanged: (item) =>
+                            setState(() => currencySelected1 = item))),
                 Expanded(
-                  // selector para la segunda moneda
-                  child: DirectSelect(
-                      itemExtent: 45.0,
-                      selectedIndex: currency2,
-                      backgroundColor: Theme.of(context).colorScheme.primary,
-                      onSelectedItemChanged: (index) {
-                        // aquí cambiamos el estado del widget
-                        setState(() {
-                          currency2 = index ?? 0;
-                        });
-                      },
-                      items: _buildItems(),
-                      child: SelectionItem(
-                        isForList: false,
-                        title: currencies[currency2],
-                      )),
-                ),
+                    // selector para la segunda moneda
+                    child: DropdownButton<String>(
+                        icon: Icon(Icons.arrow_drop_down, color: Colors.white),
+                        value: currencySelected2,
+                        dropdownColor: Colors.blueGrey[900],
+                        items: currencies
+                            .map((item) => DropdownMenuItem<String>(
+                                value: item,
+                                child: Text(
+                                  item,
+                                  style: TextStyle(
+                                      fontSize: 18, color: Colors.white),
+                                  textAlign: TextAlign.center,
+                                )))
+                            .toList(),
+                        onChanged: (item) =>
+                            setState(() => currencySelected2 = item))),
               ],
             ),
             Padding(
