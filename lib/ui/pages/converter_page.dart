@@ -154,7 +154,7 @@ class _ConverterPageState extends State<ConverterPage> {
                       Column(
                         children: [
                           _InfoText(
-                            text: currencies[currency1],
+                            text: currencySelected1!,
                             color: Colors.white,
                             font: 18,
                           ),
@@ -181,7 +181,7 @@ class _ConverterPageState extends State<ConverterPage> {
                       Column(
                         children: [
                           _InfoText(
-                            text: currencies[currency2],
+                            text: currencySelected2!,
                             color: Colors.white,
                             font: 18,
                           ),
