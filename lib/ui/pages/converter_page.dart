@@ -85,45 +85,61 @@ class _ConverterPageState extends State<ConverterPage> {
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(children: [
-            Row(
-              children: [
-                Expanded(
-                    // selector para la primera moneda
-                    child: DropdownButton<String>(
-                        icon: Icon(Icons.arrow_drop_down, color: Colors.white),
-                        value: currencySelected1,
-                        dropdownColor: Colors.blueGrey[900],
-                        items: currencies
-                            .map((item) => DropdownMenuItem<String>(
-                                value: item,
-                                child: Text(
-                                  item,
-                                  style: TextStyle(
-                                      fontSize: 18, color: Colors.white),
-                                  textAlign: TextAlign.end,
-                                )))
-                            .toList(),
-                        onChanged: (item) =>
-                            setState(() => currencySelected1 = item))),
-                Expanded(
-                    // selector para la segunda moneda
-                    child: DropdownButton<String>(
-                        icon: Icon(Icons.arrow_drop_down, color: Colors.white),
-                        value: currencySelected2,
-                        dropdownColor: Colors.blueGrey[900],
-                        items: currencies
-                            .map((item) => DropdownMenuItem<String>(
-                                value: item,
-                                child: Text(
-                                  item,
-                                  style: TextStyle(
-                                      fontSize: 18, color: Colors.white),
-                                  textAlign: TextAlign.center,
-                                )))
-                            .toList(),
-                        onChanged: (item) =>
-                            setState(() => currencySelected2 = item))),
-              ],
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SizedBox(
+                      width: 100,
+                      // selector para la primera moneda
+                      child: DropdownButton<String>(
+                          isExpanded: true,
+                          icon: const Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.white,
+                          ),
+                          value: currencySelected1,
+                          dropdownColor: Colors.grey[800],
+                          items: currencies
+                              .map((item) => DropdownMenuItem<String>(
+                                  value: item,
+                                  child: Text(
+                                    item,
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                    ),
+                                    textAlign: TextAlign.end,
+                                  )))
+                              .toList(),
+                          onChanged: (item) =>
+                              setState(() => currencySelected1 = item))),
+                  SizedBox(
+                      width: 100,
+                      // selector para la segunda moneda
+                      child: DropdownButton<String>(
+                          isExpanded: true,
+                          icon: const Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.white,
+                          ),
+                          value: currencySelected2,
+                          dropdownColor: Colors.grey[800],
+                          items: currencies
+                              .map((item) => DropdownMenuItem<String>(
+                                  value: item,
+                                  child: Text(
+                                    item,
+                                    style: const TextStyle(
+                                        fontSize: 18, color: Colors.white),
+                                    textAlign: TextAlign.center,
+                                  )))
+                              .toList(),
+                          onChanged: (item) =>
+                              setState(() => currencySelected2 = item))),
+                ],
+              ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(
