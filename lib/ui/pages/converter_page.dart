@@ -124,7 +124,110 @@ class _ConverterPageState extends State<ConverterPage> {
                             fontSize: 18.sp,
                             color: Colors.white,
                           ),
+<<<<<<< HEAD
                           textAlign: TextAlign.end,
+=======
+                          value: currencySelected1,
+                          dropdownColor: Colors.grey[800],
+                          items: currencies
+                              .map((item) => DropdownMenuItem<String>(
+                                  value: item,
+                                  child: Text(
+                                    item,
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                    ),
+                                    textAlign: TextAlign.end,
+                                  )))
+                              .toList(),
+                          onChanged: (item) =>
+                              setState(() => currencySelected1 = item))),
+                  SizedBox(
+                      width: 100,
+                      // selector para la segunda moneda
+                      child: DropdownButton<String>(
+                          isExpanded: true,
+                          icon: const Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.white,
+                          ),
+                          value: currencySelected2,
+                          dropdownColor: Colors.grey[800],
+                          items: currencies
+                              .map((item) => DropdownMenuItem<String>(
+                                  value: item,
+                                  child: Text(
+                                    item,
+                                    style: const TextStyle(
+                                        fontSize: 18, color: Colors.white),
+                                    textAlign: TextAlign.center,
+                                  )))
+                              .toList(),
+                          onChanged: (item) =>
+                              setState(() => currencySelected2 = item))),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 12.0,
+                horizontal: 10,
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        children: [
+                          _InfoText(
+                            text: currencySelected1!,
+                            color: Colors.white,
+                            font: 18,
+                          ),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          _InfoText(
+                            text: upperText,
+                            color: Colors.white,
+                            font: 50,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const Divider(
+                    color: Colors.white,
+                    height: 22,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        children: [
+                          _InfoText(
+                            text: currencySelected2!,
+                            color: Colors.white,
+                            font: 18,
+                          ),
+                        ],
+                      ),
+                      Flexible(
+                        // Agregado para el problema de desborde
+                        fit: FlexFit
+                            .loose, // Agregado para el problema de desborde
+                        child: Column(
+                          children: [
+                            _InfoText(
+                              text: lowerText,
+                              color: Colors.white,
+                              font: 50,
+                            ),
+                          ],
+>>>>>>> 8a889d4d274b02d020a6afeb9f0404b48b9bae63
                         ),
                       );
                     }).toList(),

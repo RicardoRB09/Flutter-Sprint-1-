@@ -1,3 +1,7 @@
+# ==> Solución al Reto # 1 <==
+Con base a lo solicitado para este primer reto, se presenta la solución desarrollada por los miembros del Grupo 7 de MisionTIC NRC2147. El repo se puede clonar en la sección correspondiente y a continuación se puede visualizar la vista de la app final:
+
+
 # Reto # 1
 
 Proyecto base para el primer reto
@@ -11,3 +15,5 @@ El siguiente es un demo de la interfaz a la que se debe llegar (funcionalidades 
 Solución:
 
 https://github.com/MisionTIC4b/f_currency_converter
+
+
