@@ -1,7 +1,8 @@
-import 'package:direct_select/direct_select.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../../utils/constants.dart';
-import '../widgets/selection_item.dart';
+import '../widgets/custom_key_pad.dart';
 
 // un widget con estado en el cual mantenemos los dos indices
 // de las monedas que vamos a convertir
@@ -52,16 +53,9 @@ class _ConverterPageState extends State<ConverterPage> {
       res = upperText;
     }
 
-    convertionStr = '';
-
-    if (RegExp(r'^[0-9]+([.][0-9]+)?$').hasMatch(res)) {
-      double valueConverted = (double.parse(res) * rates[currency1][currency2]);
-      convertionStr = valueConverted.toStringAsFixed(2);
-    }
-
     setState(() {
       upperText = res;
-      lowerText = convertionStr;
+      lowerText = convert(res);
     });
   }
 
@@ -73,211 +67,180 @@ class _ConverterPageState extends State<ConverterPage> {
     });
   }
 
+  String convert(String? value) {
+    String result = '';
+
+    if (RegExp(r'^[0-9]+([.][0-9]+)?$').hasMatch(value!)) {
+      double valueConverted =
+          (double.parse(value) * rates[currency1][currency2]);
+      result = valueConverted.toString();
+    }
+
+    return result;
+  }
+
   @override
   Widget build(BuildContext context) {
     // El siguiente widget en el arbol es el Scaffold
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
     return Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            'Currency converter - Group #7',
-          ),
+      appBar: AppBar(
+        leading: const Icon(
+          Icons.currency_exchange_rounded,
+          color: Colors.white,
+          size: 26,
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  SizedBox(
-                      width: 100,
-                      // selector para la primera moneda
-                      child: DropdownButton<String>(
-                          isExpanded: true,
-                          icon: const Icon(
-                            Icons.arrow_drop_down,
+        title: const Text(
+          'Currency converter - Group #7',
+        ),
+      ),
+      body: Padding(
+        padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 20.w),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                SizedBox(
+                  width: 100.w,
+                  // selector para la primera moneda
+                  child: DropdownButton<String>(
+                    isExpanded: true,
+                    icon: const Icon(
+                      Icons.arrow_drop_down,
+                      color: Colors.white,
+                    ),
+                    value: currencySelected1,
+                    dropdownColor: Colors.grey[800],
+                    items: currencies.map((String currencies) {
+                      return DropdownMenuItem(
+                        value: currencies,
+                        child: Text(
+                          currencies,
+                          style: TextStyle(
+                            fontSize: 18.sp,
                             color: Colors.white,
                           ),
-                          value: currencySelected1,
-                          dropdownColor: Colors.grey[800],
-                          items: currencies
-                              .map((item) => DropdownMenuItem<String>(
-                                  value: item,
-                                  child: Text(
-                                    item,
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.white,
-                                    ),
-                                    textAlign: TextAlign.end,
-                                  )))
-                              .toList(),
-                          onChanged: (item) =>
-                              setState(() => currencySelected1 = item))),
-                  SizedBox(
-                      width: 100,
-                      // selector para la segunda moneda
-                      child: DropdownButton<String>(
-                          isExpanded: true,
-                          icon: const Icon(
-                            Icons.arrow_drop_down,
-                            color: Colors.white,
-                          ),
-                          value: currencySelected2,
-                          dropdownColor: Colors.grey[800],
-                          items: currencies
-                              .map((item) => DropdownMenuItem<String>(
-                                  value: item,
-                                  child: Text(
-                                    item,
-                                    style: const TextStyle(
-                                        fontSize: 18, color: Colors.white),
-                                    textAlign: TextAlign.center,
-                                  )))
-                              .toList(),
-                          onChanged: (item) =>
-                              setState(() => currencySelected2 = item))),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 12.0,
-                horizontal: 10,
-              ),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        children: [
-                          _InfoText(
-                            text: currencies[currency1],
-                            color: Colors.white,
-                            font: 18,
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          _InfoText(
-                            text: upperText,
-                            color: Colors.white,
-                            font: 50,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const Divider(
-                    color: Colors.white,
-                    height: 22,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        children: [
-                          _InfoText(
-                            text: currencies[currency2],
-                            color: Colors.white,
-                            font: 18,
-                          ),
-                        ],
-                      ),
-                      Flexible(
-                        // Agregado para el problema de desborde
-                        fit: FlexFit
-                            .loose, // Agregado para el problema de desborde
-                        child: Column(
-                          children: [
-                            _InfoText(
-                              text: lowerText,
-                              color: Colors.white,
-                              font: 50,
-                            ),
-                          ],
+                          textAlign: TextAlign.end,
                         ),
-                      ),
-                    ],
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      currency1 = currencies.indexOf(newValue!);
+                      setState(() {
+                        currencySelected1 = newValue;
+                        lowerText = convert(upperText);
+                      });
+                    },
                   ),
-                  Table(
-                    defaultColumnWidth: FixedColumnWidth(110),
-                    // border: TableBorder.all(width: 1, color: Colors.white),
-                    children: [
-                      TableRow(
-                        children: [
-                          _CircularButton(
-                            text: '7',
-                            callback: btnPressed,
+                ),
+                SizedBox(
+                  width: 100.w,
+                  // selector para la segunda moneda
+                  child: DropdownButton<String>(
+                    isExpanded: true,
+                    icon: const Icon(
+                      Icons.arrow_drop_down,
+                      color: Colors.white,
+                    ),
+                    value: currencySelected2,
+                    dropdownColor: Colors.grey[800],
+                    items: currencies.map((String currencies) {
+                      return DropdownMenuItem(
+                        value: currencies,
+                        child: Text(
+                          currencies,
+                          style: TextStyle(
+                            fontSize: 18.sp,
+                            color: Colors.white,
                           ),
-                          _CircularButton(
-                            text: '8',
-                            callback: btnPressed,
-                          ),
-                          _CircularButton(
-                            text: '9',
-                            callback: btnPressed,
-                          )
-                        ],
-                      ),
-                      TableRow(
-                        children: [
-                          _CircularButton(
-                            text: '4',
-                            callback: btnPressed,
-                          ),
-                          _CircularButton(
-                            text: '5',
-                            callback: btnPressed,
-                          ),
-                          _CircularButton(
-                            text: '6',
-                            callback: btnPressed,
-                          )
-                        ],
-                      ),
-                      TableRow(
-                        children: [
-                          _CircularButton(
-                            text: '1',
-                            callback: btnPressed,
-                          ),
-                          _CircularButton(
-                            text: '2',
-                            callback: btnPressed,
-                          ),
-                          _CircularButton(
-                            text: '3',
-                            callback: btnPressed,
-                          )
-                        ],
-                      ),
-                      TableRow(
-                        children: [
-                          _CircularButton(
-                            text: '0',
-                            callback: btnPressed,
-                          ),
-                          _CircularButton(
-                            text: '.',
-                            callback: btnPressed,
-                          ),
-                          _EraseButton(
-                            callback: btnPressed,
-                            callbackErase: eraseDisplays,
-                          )
-                        ],
-                      ),
-                    ],
+                          textAlign: TextAlign.end,
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      currency2 = currencies.indexOf(newValue!);
+                      setState(() {
+                        currencySelected2 = newValue;
+                        lowerText = convert(upperText);
+                      });
+                    },
                   ),
-                ],
-              ),
-            )
-          ]),
-        ));
+                ),
+              ],
+            ),
+            Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      children: [
+                        _InfoText(
+                          text: currencySelected1!,
+                          color: Colors.white,
+                          font: 18.sp,
+                        ),
+                      ],
+                    ),
+                    SizedBox(width: 15.w),
+                    Column(
+                      children: [
+                        _InfoText(
+                          text: upperText,
+                          color: Colors.white,
+                          font: 50.sp,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                Divider(
+                  color: Colors.white,
+                  height: 20.h,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      children: [
+                        _InfoText(
+                          text: currencySelected2!,
+                          color: Colors.white,
+                          font: width * 0.044,
+                        ),
+                      ],
+                    ),
+                    SizedBox(width: 15.w),
+                    Flexible(
+                      // Agregado para el problema de desborde
+                      fit: FlexFit
+                          .loose, // Agregado para el problema de desborde
+                      child: Column(
+                        children: [
+                          _InfoText(
+                            text: lowerText,
+                            color: Colors.white,
+                            font: width * 0.12,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            CustomKeyPad(
+              callback: btnPressed,
+              callbackErase: eraseDisplays,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -293,13 +256,13 @@ class _EraseButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 15),
+      padding: EdgeInsets.symmetric(vertical: 15.h),
       child: ElevatedButton(
         onPressed: () => callback('<'),
         onLongPress: () => callbackErase(),
         style: ElevatedButton.styleFrom(
           shape: const CircleBorder(),
-          fixedSize: const Size.fromRadius(35),
+          fixedSize: Size.fromRadius(35.r),
           primary: Colors.grey[500],
         ),
         child: const Icon(
@@ -325,18 +288,18 @@ class _CircularButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 15),
+      padding: EdgeInsets.symmetric(vertical: 15.h),
       child: ElevatedButton(
         onPressed: () => callback(text),
         style: ElevatedButton.styleFrom(
           shape: const CircleBorder(),
-          fixedSize: const Size.fromRadius(35),
+          fixedSize: Size.fromRadius(35.r),
           primary: Colors.grey[800],
         ),
         child: Text(
           text,
-          style: const TextStyle(
-              color: Colors.white, fontFamily: 'Helvetica', fontSize: 30),
+          style: TextStyle(
+              color: Colors.white, fontFamily: 'Helvetica', fontSize: 30.sp),
         ),
       ),
     );

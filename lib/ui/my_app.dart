@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'pages/converter_page.dart';
 
 class MyApp extends StatelessWidget {
@@ -7,26 +8,29 @@ class MyApp extends StatelessWidget {
   // aquí agregamos el MaterialApp al árbol de widgets
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Currency converter',
-      theme: ThemeData(
-        primarySwatch: Colors.grey,
-        fontFamily: 'Helvetica',
-        appBarTheme: AppBarTheme.of(context).copyWith(
-          backgroundColor: Colors.orange,
-          titleTextStyle: const TextStyle(
-            color: Colors.white,
-            fontFamily: 'Helvetica',
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
+    return ScreenUtilInit(
+      builder: (context, child) => MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Currency converter',
+        theme: ThemeData(
+          primarySwatch: Colors.grey,
+          fontFamily: 'Helvetica',
+          appBarTheme: AppBarTheme.of(context).copyWith(
+            backgroundColor: Colors.orange,
+            titleTextStyle: const TextStyle(
+              color: Colors.white,
+              fontFamily: 'Helvetica',
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
           ),
+          scaffoldBackgroundColor: Colors.black,
         ),
-        scaffoldBackgroundColor: Colors.black,
+        // TODO
+        // ConverterPage es el widget que presenta la página de la aplicación
+        home: ConverterPage(),
       ),
-      // TODO
-      // ConverterPage es el widget que presenta la página de la aplicación
-      home: ConverterPage(),
+      designSize: const Size(360, 712),
     );
   }
 }
