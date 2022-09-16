@@ -25,14 +25,17 @@ class _ConverterPageState extends State<ConverterPage> {
   String convertionStr = '';
 
   //CMC-Lista de los nombres de las currencies (dropdown menu)
-  List<String> currencyList = ['COP', 'USD', 'EU'];
   String? currencySelected1 = 'USD';
   String? currencySelected2 = 'COP';
 
   //Function to show pressed btn value
   void btnPressed(String btnVal) {
     if (btnVal != '<') {
-      res = upperText + btnVal;
+      if (upperText.length > 10) {
+        res = upperText;
+      } else {
+        res = upperText + btnVal;
+      }
     } else if (upperText.isNotEmpty) {
       res = upperText.substring(0, upperText.length - 1);
     }
@@ -81,7 +84,11 @@ class _ConverterPageState extends State<ConverterPage> {
     if (RegExp(r'^[0-9]+([.][0-9]+)?$').hasMatch(value!)) {
       double valueConverted =
           (double.parse(value) * rates[currency1][currency2]);
-      result = valueConverted.toString();
+      if (valueConverted.toString().length > 10) {
+        result = valueConverted.toStringAsExponential(5);
+      } else {
+        result = valueConverted.toString();
+      }
     }
 
     return result;
@@ -152,7 +159,7 @@ class _ConverterPageState extends State<ConverterPage> {
                         _InfoText(
                           text: upperText,
                           color: Colors.white,
-                          font: 50.sp,
+                          font: (width * 0.12).sp,
                         ),
                       ],
                     ),
@@ -184,7 +191,7 @@ class _ConverterPageState extends State<ConverterPage> {
                           _InfoText(
                             text: lowerText,
                             color: Colors.white,
-                            font: width * 0.12,
+                            font: (width * 0.12).sp,
                           ),
                         ],
                       ),
