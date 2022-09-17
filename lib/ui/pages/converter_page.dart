@@ -211,68 +211,6 @@ class _ConverterPageState extends State<ConverterPage> {
   }
 }
 
-class _EraseButton extends StatelessWidget {
-  final Function callback;
-  final Function callbackErase;
-  const _EraseButton({
-    Key? key,
-    required this.callback,
-    required this.callbackErase,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 15.h),
-      child: ElevatedButton(
-        onPressed: () => callback('<'),
-        onLongPress: () => callbackErase(),
-        style: ElevatedButton.styleFrom(
-          shape: const CircleBorder(),
-          fixedSize: Size.fromRadius(35.r),
-          primary: Colors.grey[500],
-        ),
-        child: const Icon(
-          Icons.arrow_back_ios_new,
-          size: 35,
-          color: Colors.black,
-        ),
-      ),
-    );
-  }
-}
-
-class _CircularButton extends StatelessWidget {
-  final String text;
-  final Function callback;
-
-  const _CircularButton({
-    Key? key,
-    required this.text,
-    required this.callback,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 15.h),
-      child: ElevatedButton(
-        onPressed: () => callback(text),
-        style: ElevatedButton.styleFrom(
-          shape: const CircleBorder(),
-          fixedSize: Size.fromRadius(35.r),
-          primary: Colors.grey[800],
-        ),
-        child: Text(
-          text,
-          style: TextStyle(
-              color: Colors.white, fontFamily: 'Helvetica', fontSize: 30.sp),
-        ),
-      ),
-    );
-  }
-}
-
 class _InfoText extends StatelessWidget {
   final String text;
   final Color color;
