@@ -3,7 +3,8 @@ Con base a lo solicitado para este primer reto, se presenta la solución desarro
 
 <img src="https://user-images.githubusercontent.com/109091254/190553729-6b3aae98-a889-41e4-817a-2ecf0403ab39.gif" width="300" />
 
-
+De igual forma, se puede ver el video explicativo en el siguiente enlace:
+https://uninorte-my.sharepoint.com/:v:/g/personal/rracines_uninorte_edu_co/EWwI55SFKCJNgaYtlDds__cBIo3gwQvtPdZKfHwlalVtpw?e=yb8qHF
 
 # Reto # 1
 
